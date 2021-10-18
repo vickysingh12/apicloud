@@ -54,41 +54,7 @@ con.connect(function (err) {
       if (err) throw err;
       console.log("record initialized");
     });
-    var sql = "CREATE TABLE users (name VARCHAR(255), value VARCHAR(255))";
-    con.query(sql, function (err, result) {
-      console.log("Table created");
-    });
-
-    var sqlinsertrow1 = `INSERT INTO users (name, value) VALUES ('item1', '0')`;
-    con.query(sqlinsertrow1, function (err, result) {
-      if (err) throw err;
-      console.log("record initialized");
-    });
-
-    var sqlinsertrow2 = `INSERT INTO users (name, value) VALUES ('item2', '0')`;
-    con.query(sqlinsertrow2, function (err, result) {
-      if (err) throw err;
-      console.log("record initialized");
-    });
-
-    var sqlinsertrow3 = `INSERT INTO users (name, value) VALUES ('item3', '0')`;
-    con.query(sqlinsertrow3, function (err, result) {
-      if (err) throw err;
-      console.log("record initialized");
-    });
-
-    var sqlinsertrow4 = `INSERT INTO users (name, value) VALUES ('item4', '0')`;
-    con.query(sqlinsertrow4, function (err, result) {
-      if (err) throw err;
-      console.log("record initialized");
-    });
-
-    var sqlinsertrow5 = `INSERT INTO users (name, value) VALUES ('item5', '0')`;
-    con.query(sqlinsertrow5, function (err, result) {
-      if (err) throw err;
-      console.log("record initialized");
-    });
-
+   
     var sqlformone = "CREATE TABLE userformOne (name VARCHAR(255), value VARCHAR(255))";
     con.query(sqlformone, function (err, result) {
       console.log("Table created");
