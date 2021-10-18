@@ -60,30 +60,22 @@ con.connect(function (err) {
 });
 
 app.get("/", (req, res) => {
-  con.query(
-    "SHOW TABLES FROM `sql6444324`",
-    function (err, result, fields) {
-      if (err) throw err;
-      console.log(result);
-      if (result.length > 0) {
-
-        con.query("SELECT * FROM users", function (err, resultfinal, fields) {
-          if (err) throw err;
-          console.log(resultfinal);
-          res.send(resultfinal);
-        });
-      }
-      else {
-          res.send([])
-      }
+  con.query("SHOW TABLES FROM `sql6444324`", function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+    if (result.length > 0) {
+      con.query("SELECT * FROM users", function (err, resultfinal, fields) {
+        if (err) throw err;
+        console.log(resultfinal);
+        res.send(resultfinal);
+      });
+    } else {
+      res.send([]);
     }
-  );
+  });
 });
 
-
-
 app.post("/", async (req, res) => {
-
   if (req.body.itemone) {
     let sqlupdate = `UPDATE users SET value = '${req.body.itemone}' WHERE name = 'item1'`;
 
