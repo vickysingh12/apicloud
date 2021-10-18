@@ -18,6 +18,7 @@ var con = mysql.createConnection({
 
 con.connect(function (err) {
   if (err) throw err;
+  console.log('app initialized');
   console.log("Connected!");
   try {
     var sql = "CREATE TABLE users (name VARCHAR(255), value VARCHAR(255))";
