@@ -44,6 +44,7 @@ con.connect(function (err) {
       if(result) {
         
         if(result[0]['count(*)'] < 5) {
+          console.log('rows less than 5');
           makeRows()
         }
       }
