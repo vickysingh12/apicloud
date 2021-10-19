@@ -101,7 +101,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/reset", (req, res) => {
+app.get("/reset", (req, res) => {
 
     con.query(`UPDATE users SET value = '0' WHERE name = 'item1'`, function (err, result) {
       if (err) throw err;
