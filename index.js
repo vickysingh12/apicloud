@@ -126,7 +126,7 @@ app.post("/reset", (req, res) => {
   if (req.body.itemone) {
     let sqlupdate = `UPDATE users SET value = '0' WHERE name = 'item1'`;
 
-    await con.query(sqlupdate, function (err, result) {
+    con.query(sqlupdate, function (err, result) {
       if (err) throw err;
       console.log("record 1 updated")
     })
@@ -135,7 +135,7 @@ app.post("/reset", (req, res) => {
   if (req.body.itemtwo) {
     let sqlupdate = `UPDATE users SET value = '0' WHERE name = 'item2'`;
 
-    await con.query(sqlupdate, function (err, result) {
+    con.query(sqlupdate, function (err, result) {
       if (err) throw err;
       console.log("record 2 updated")
     })
@@ -144,7 +144,7 @@ app.post("/reset", (req, res) => {
   if (req.body.itemthree) {
     let sqlupdate = `UPDATE users SET value = '0' WHERE name = 'item3'`;
 
-    await con.query(sqlupdate, function (err, result) {
+    con.query(sqlupdate, function (err, result) {
       if (err) throw err;
       console.log("record 3 updated")
     })
@@ -153,7 +153,7 @@ app.post("/reset", (req, res) => {
   if (req.body.itemfour) {
     let sqlupdate = `UPDATE users SET value = '0' WHERE name = 'item4'`;
 
-    await con.query(sqlupdate, function (err, result) {
+    con.query(sqlupdate, function (err, result) {
       if (err) throw err;
       console.log("record 4 updated")
     })
@@ -162,7 +162,7 @@ app.post("/reset", (req, res) => {
   if (req.body.itemfive) {
     let sqlupdate = `UPDATE users SET value = '0' WHERE name = 'item5'`;
 
-    await con.query(sqlupdate, function (err, result) {
+    con.query(sqlupdate, function (err, result) {
       if (err) throw err;
       console.log("record 5 updated")
     })
