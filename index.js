@@ -2,12 +2,29 @@ const express = require("express");
 var mysql = require("mysql");
 var cors = require("cors");
 const app = express();
+require("dotenv").config()
 var bodyParser = require("body-parser");
+
 
 const port = process.env.PORT || 8080;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json())
+app.use(express.static('public'));
+
+const YOUR_DOMAIN = 'https://wordpress-606841-2183624.cloudwaysapps.com'
+
+
+// Setup Stripe
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
+
+// This is the list of items we are selling
+// This will most likely come from a database or JSON file
+const storeItems = new Map([
+  [1, { priceInCents: 10000, name: "Learn React Today" }],
+  [2, { priceInCents: 15000, name: "Learn CSS Today" }],
+])
 
 var con = mysql.createConnection({
   host: "sql6.freemysqlhosting.net",
@@ -109,6 +126,27 @@ app.get("/", (req, res) => {
       res.send([]);
     }
   });
+});
+
+app.post('/create-checkout-session', async (req, res) => {
+  console.log('in stripe session');
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        // TODO: replace this with the `price` of the product you want to sell
+        price: 10,
+        quantity: 1,
+      },
+    ],
+    payment_method_types: [
+      'card',
+    ],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}/success.html`,
+    cancel_url: `${YOUR_DOMAIN}/cancel.html`,
+  });
+
+  res.redirect(303, session.url)
 });
 
 app.get("/formone", (req, res) => {
