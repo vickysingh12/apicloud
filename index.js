@@ -128,6 +128,8 @@ app.post("/reset", (req, res) => {
       console.log("record 5 updated")
     })
 
+    res.send("all record reset")
+
 });
 
 
@@ -143,7 +145,7 @@ app.post("/create-checkout-session", async (req, res) => {
       line_items: [
          {
           price_data: {
-            currency: "usd",
+            currency: "eur",
             product_data: {
               name: storeItem.name,
             },
@@ -157,8 +159,8 @@ app.post("/create-checkout-session", async (req, res) => {
       // Set a success and cancel URL we will send customers to
       // These must be full URLs
       // In the next section we will setup CLIENT_URL
-      success_url: `${process.env.CLIENT_URL}/success.html`,
-      cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+      success_url: `${process.env.CLIENT_URL}`,
+      cancel_url: `${process.env.CLIENT_URL}`,
     })
 
     res.json({ url: session.url })
