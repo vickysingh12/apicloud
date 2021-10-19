@@ -111,11 +111,9 @@ con.connect(function (err) {
 app.get("/", (req, res) => {
   con.query("SHOW TABLES FROM `sql6444324`", function (err, result, fields) {
     if (err) throw err;
-    console.log(result);
     if (result.length > 0) {
       con.query("SELECT * FROM users", function (err, resultfinal, fields) {
         if (err) throw err;
-        console.log(resultfinal);
         res.send(resultfinal);
       });
     } else {
@@ -127,7 +125,6 @@ app.get("/", (req, res) => {
 app.post("/create-checkout-session", async (req, res) => {
   try {
     // Create a checkout session with Stripe
-    console.log(req.body);
     const storeItem = storeItems.get(1)
 
     const session = await stripe.checkout.sessions.create({
@@ -155,7 +152,6 @@ app.post("/create-checkout-session", async (req, res) => {
       cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
     })
 
-    console.log(session.url)
     res.json({ url: session.url })
   } catch (e) {
     // If there is an error send it to the client
