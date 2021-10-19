@@ -13,17 +13,13 @@ app.use(cors());
 app.use(express.json())
 app.use(express.static('public'));
 
-const YOUR_DOMAIN = 'https://wordpress-606841-2183624.cloudwaysapps.com'
-
-
 // Setup Stripe
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 // This is the list of items we are selling
 // This will most likely come from a database or JSON file
 const storeItems = new Map([
-  [1, { priceInCents: 10000, name: "Learn React Today" }],
-  [2, { priceInCents: 15000, name: "Learn CSS Today" }],
+  [1, { priceInCents: 2806, name: "Amount" }]
 ])
 
 var con = mysql.createConnection({
@@ -128,27 +124,44 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post('/create-checkout-session', async (req, res) => {
-  console.log('in stripe session');
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        // TODO: replace this with the `price` of the product you want to sell
-        price: 10,
-        quantity: 1,
-      },
-    ],
-    payment_method_types: [
-      'card',
-    ],
-    mode: 'payment',
-    success_url: `${YOUR_DOMAIN}/success.html`,
-    cancel_url: `${YOUR_DOMAIN}/cancel.html`,
-  });
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    // Create a checkout session with Stripe
+    console.log(req.body);
+    const storeItem = storeItems.get(1)
 
-  console.log(session.url)
-  res.redirect(303, session.url)
-});
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      // For each item use the id to get it's information
+      // Take that information and convert it to Stripe's format
+      line_items: [
+         {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: storeItem.name,
+            },
+            unit_amount: storeItem.priceInCents,
+          },
+          quantity: req.body.itemquantity,
+        }
+      ]
+      ,
+      mode: "payment",
+      // Set a success and cancel URL we will send customers to
+      // These must be full URLs
+      // In the next section we will setup CLIENT_URL
+      success_url: `${process.env.CLIENT_URL}/success.html`,
+      cancel_url: `${process.env.CLIENT_URL}/cancel.html`,
+    })
+
+    console.log(session.url)
+    res.json({ url: session.url })
+  } catch (e) {
+    // If there is an error send it to the client
+    res.status(500).json({ error: e.message })
+  }
+})
 
 app.get("/formone", (req, res) => {
   con.query("SHOW TABLES FROM `sql6444324`", function (err, result, fields) {
